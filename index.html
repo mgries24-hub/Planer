@@ -231,10 +231,13 @@
 
   <!-- ============ PLANER ============ -->
   <div class="page active" id="page-planer">
-    <div class="seg">
-      <button data-view="Tag">Tag</button>
-      <button data-view="Woche" class="active">Woche</button>
-      <button data-view="Monat">Monat</button>
+    <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;">
+      <div class="seg" style="flex:1;margin-bottom:0;">
+        <button data-view="Tag">Tag</button>
+        <button data-view="Woche" class="active">Woche</button>
+        <button data-view="Monat">Monat</button>
+      </div>
+      <button class="btn btn-primary" id="addTaskBtn" style="flex:0 0 auto;padding:12px 16px;font-size:.92rem;">+ Aufgabe</button>
     </div>
     <p class="viewlabel">Aktuelle Ansicht: <b id="viewName">Woche</b></p>
     <div class="grid">
@@ -556,7 +559,9 @@ document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',(
 
 /* add/edit task modals */
 const addModal=document.getElementById('addModal'),editModal=document.getElementById('editModal');
-document.getElementById('fab').addEventListener('click',()=>{document.getElementById('newText').value='';document.getElementById('newDate').value=iso(new Date());document.getElementById('newPrio').value='mittel';addModal.classList.add('show');setTimeout(()=>document.getElementById('newText').focus(),100);});
+function openAddTask(){document.getElementById('newText').value='';document.getElementById('newDate').value=iso(new Date());document.getElementById('newPrio').value='mittel';addModal.classList.add('show');setTimeout(()=>document.getElementById('newText').focus(),100);}
+document.getElementById('fab').addEventListener('click',openAddTask);
+document.getElementById('addTaskBtn').addEventListener('click',openAddTask);
 document.getElementById('saveNew').addEventListener('click',()=>{
   const text=document.getElementById('newText').value.trim();const due=document.getElementById('newDate').value;const prio=document.getElementById('newPrio').value;
   if(!text||!due)return;state.tasks.push({id:state.nextId++,text,due,done:false,prio});addModal.classList.remove('show');renderPlaner();toast('Aufgabe hinzugefügt');
